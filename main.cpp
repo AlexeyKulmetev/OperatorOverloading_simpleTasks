@@ -2,5 +2,5 @@
 
 
 int main() {
-	Point3D point(2, 1, 4);
+	// Point3D point(2, 1, 4);
 }
