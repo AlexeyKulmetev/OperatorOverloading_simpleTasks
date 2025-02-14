@@ -1,6 +1,8 @@
 #ifndef BOX
 #define BOX
 
+#include <cmath>
+
 class Box {
 public:
 	Box() = default;
@@ -9,8 +11,20 @@ public:
 
 	Box& operator += (const Box& other) {
 		double newVolume = volume() + other.volume();
+		double scaleFactor = std::cbrt(newVolume / volume());
+		width *= scaleFactor;
+		height *= scaleFactor;
+		depth *= scaleFactor;
 
 		return *this;
+	}
+
+	bool operator == (const Box& other) const {
+		return std::abs(volume() - other.volume()) < epsilon;
+	}
+
+	bool operator != (const Box& other) const {
+		return !(*this == other);
 	}
 
 	Box operator + (const Box& other) const {
@@ -19,7 +33,15 @@ public:
 		return sum;
 	}
 
-double volume() const{
+	double getEpsilon() {
+		return epsilon;
+	}
+
+	double setEpsilon(const double& _epsilon) {
+		epsilon = _epsilon;
+	}
+
+	double volume() const{
 		return width * height * depth;
 	}
 
@@ -27,6 +49,7 @@ private:
 	double width;
 	double height;
 	double depth;
+	double epsilon = 0.001;
 };
 
 #endif // !BOX
