@@ -2,6 +2,8 @@
 #define BOX
 
 #include <cmath>
+#include <stdexcept>
+#include <iostream>
 
 class Box {
 public:
@@ -10,6 +12,10 @@ public:
 	Box(const Box& other) : Box(other.width, other.height, other.depth) {}
 
 	Box& operator += (const Box& other) {
+		if (volume() == 0) {
+			*this = other;
+			return *this;
+		}
 		double newVolume = volume() + other.volume();
 		double scaleFactor = std::cbrt(newVolume / volume());
 		width *= scaleFactor;
@@ -33,11 +39,14 @@ public:
 		return sum;
 	}
 
-	double getEpsilon() {
+	double getEpsilon() const {
 		return epsilon;
 	}
 
-	double setEpsilon(const double& _epsilon) {
+	void setEpsilon(const double& _epsilon) {
+		if (_epsilon < 0) {
+			throw std::invalid_argument("Epsilon must be non-negative");
+		}
 		epsilon = _epsilon;
 	}
 
@@ -45,11 +54,18 @@ public:
 		return width * height * depth;
 	}
 
+	friend std::ostream& operator << (std::ostream& out, const Box& box);
+
 private:
 	double width;
 	double height;
 	double depth;
 	double epsilon = 0.001;
 };
+
+std::ostream& operator << (std::ostream& out, const Box& box) {
+	out << "Box(width: " << box.width << ", height: " << box.height << ", depth: " << box.depth << ")";
+	return out;
+}
 
 #endif // !BOX
