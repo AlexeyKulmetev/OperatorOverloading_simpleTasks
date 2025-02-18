@@ -1,8 +1,8 @@
 #ifndef CURRENCY
 #define CURRENCY
 
-const double EURO_RATE = 0.85;
-const int RUBLE_RATE = 75;
+#include <cmath>
+
 
 class Currency {
 public:
@@ -15,7 +15,7 @@ public:
 	}
 
 	operator int() const {
-		return dollars * RUBLE_RATE;
+		return static_cast<int>(std::round(dollars * RUBLE_RATE));
 	}
 
 private:
@@ -23,5 +23,9 @@ private:
 	static constexpr double EURO_RATE = 0.85;
 	static constexpr int RUBLE_RATE = 75;
 };
+
+Currency operator "" _usd(long double x) {
+	return Currency(static_cast<double>(x));
+}
 
 #endif // !CURRENCY

@@ -8,7 +8,7 @@
 class Box {
 public:
 	Box() = default;
-	Box(double _width, double _height, double _depth) : width(_width), height(_height), depth(_depth) {}
+	Box(const double _width, const double _height, const double _depth) : width(_width), height(_height), depth(_depth) {}
 	Box(const Box& other) : Box(other.width, other.height, other.depth) {}
 
 	Box& operator += (const Box& other) {

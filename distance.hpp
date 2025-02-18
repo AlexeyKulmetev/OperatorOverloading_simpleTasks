@@ -2,8 +2,9 @@
 #define DISTANCE
 
 class Distance {
+public:
 	Distance() = default;
-	Distance(int _length) : length{ _length } {}
+	Distance(const int _length) : length{ _length } {}
 	Distance(const Distance& other) : length{ other.length } {}
 
 	operator double() const {
@@ -17,5 +18,9 @@ class Distance {
 private:
 	int length;
 };
+
+Distance operator "" _m(unsigned long long x) {
+	return Distance(static_cast<int>(x));
+}
 
 #endif // !DISTANCE
